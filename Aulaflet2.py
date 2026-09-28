@@ -1,13 +1,49 @@
 import flet as ft
 
+PIZZAS = [
+    {"id":"P01", "nome":"Marguerita", "m":22, "g":35},
+    {"id":"P01", "nome":"Portuguesa", "m":35, "g":45},
+    {"id":"P01", "nome":"Frango", "m":32, "g":42},
+    {"id":"P01", "nome":"Muçarela", "m":30, "g":40},
+    {"id":"P02", "nome":"Calabresa", "m":32, "g":42},
+]
+
 def main(page: ft.Page):
     page.title = "PizzaDev"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER 
-    titulo = ft.Text("PizzaDev", size=40, weight=ft.FontWeight.BOLD)
-    subtitulo = ft.Text("Sua pizza potiguar.", size=20, weight=ft.FontWeight.BOLD)
-    versao = ft.Text("Versão didática", size=8, weight=ft.FontWeight.BOLD)
-    subtitulo2 = ft.Text(f"Instruções: \nEscolha o sabor e tamanho da sua pizza.", size=12, weight=ft.FontWeight.BOLD)
+    
+    titulo = ft.Text(
+        "PizzaDev",
+        size=40,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLUE_900,
+        text_align=ft.TextAlign.CENTER,
+    )
+
+    subtitulo = ft.Text(
+        "Sua pizza potiguar.",
+        size=20,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLUE_900,
+        text_align=ft.TextAlign.CENTER,
+    )
+
+    versao = ft.Text(
+        "Versão didática",
+        size=8,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLUE_900,
+        text_align=ft.TextAlign.CENTER,
+    )
+
+    subtitulo2 = ft.Text(
+        "Instruções: \nEscolha o sabor e tamanho da sua pizza.",
+        size=12,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLUE_900,
+        text_align=ft.TextAlign.CENTER,
+    )
 
     mensagem = ft.Text(
         "Nenhuma pizza selecionada",
@@ -20,7 +56,7 @@ def main(page: ft.Page):
         mensagem.value = f"Selecionada: {sabor}"
         page.update()
 
-    card1 = ft.Container(
+    """card1 = ft.Container(
         padding=15,
         border_radius=12,
         bgcolor=ft.colors.WHITE,
@@ -66,15 +102,8 @@ def main(page: ft.Page):
                 ft.Text("milho, ervilha, presunto, cebola e muçarela"),
                 ft.Row([ft.Text("M: R$ 32"), ft.Text("G: R$ 42")])
             ])
-        )
+        )"""
     
-    linhadecards = ft.Row(
-        controls = [card1, card2, card3, card4],
-        wrap = True,
-        spacing = 20,
-        run_spacing = 20
-    )
-
     quantidade = ft.TextField(label="Quantidade", value="1")
     tamanho = ft.RadioGroup(
         content=ft.Row([
@@ -105,6 +134,28 @@ def main(page: ft.Page):
         resultado.value = f"Parcial: R$ {preco * qtd:.2f}"
         page.update()
 
+    def criar_card(sabor):
+        return ft.Container(
+            padding=12,
+            on_click=lambda e: escolher(sabor["nome"]),
+            border_radius=12,
+            content=ft.Column([
+                ft.Text(sabor["nome"], size=20),
+                ft.Text(f'M: R$ {sabor["m"]} | G: R$ {sabor["g"]}')
+            ])
+        )
+    cards = []
+    for sabor in PIZZAS:
+        card = criar_card(sabor)
+        cards.append(card)
+        
+    linhadecards = ft.Row(
+            controls=cards,
+            wrap=True,
+            spacing=20,
+            run_spacing=20,
+        )
+
     page.add(
         titulo,
         subtitulo,
@@ -116,7 +167,7 @@ def main(page: ft.Page):
         ft.Text("Tamanho:"),
         tamanho,
         ft.ElevatedButton("Calcular", on_click=calcular),
-        resultado
+        resultado,
     )
 
 ft.app(target=main)
