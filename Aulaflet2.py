@@ -69,7 +69,6 @@ def main(page: ft.Page):
             controls=[
                 ft.Text("PizzaDev", size=32, weight=ft.FontWeight.BOLD, color="#000000"),
                 ft.Text("Bem-vindo ao PizzaDev", size=20, color="#000000"),
-                ft.Text("Dupla responsável: Stefany e João", size=12, color="#000000"),
                 ft.ElevatedButton(
                     "Abrir Cardápio",
                     on_click=lambda e: mostrar_cardapio()
@@ -242,6 +241,5 @@ def main(page: ft.Page):
 
     page.add(area)
     mostrar_inicio()
-
 
 ft.app(target=main)
